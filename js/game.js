@@ -26,9 +26,22 @@ function create() {
 		grounds.scale.setTo(1.0, 1.5);
 		grounds.body.immovable = true;
 
-		star = game.add.sprite(10, 0 , 'star');
+		stars = game.add.group();
+		stars.enableBody = true;
+
+
+		for (var i = 0; i < 9; i++)
+		{
+		var rand = Math.random()*300;
+		var randtwo = Math.random() * 400;
+		var star = stars.create(rand,  randtwo, 'star');
 		game.physics.arcade.enable(star);
-		star.body.gravity.y = 1;
+		star.body.velocity.y = 25;
+
+		}
+
+		this.timer = this.game.time.events.loop(1500, addStars, this);
+
 
 
 
@@ -38,7 +51,6 @@ function create() {
 
 		dude.body.bounce.y = 0;
 		dude.body.gravity.y = 300;
-		dude.body.collideWorldBounds = true;
 
 		dude.animations.add('left', [0, 1, 2 , 3], 10, true);
 		dude.animations.add('right', [5, 6, 7, 8], 10, true);
@@ -48,7 +60,8 @@ function create() {
 
 function update() {
 	game.physics.arcade.collide(dude, platform);
-	game.physics.arcade.overlap(dude, star, starJump, null, this);
+	game.physics.arcade.overlap(dude, stars, starJump, null, this);
+	game.physics.arcade.overlap(stars, platform, starDie, null, this);
 	if (cursors.left.isDown) {
 		dude.body.velocity.x = -150;
 		dude.animations.play('left');
@@ -64,11 +77,25 @@ function update() {
 	}
 
 	if (cursors.up.isDown && dude.body.touching.down) {
-		dude.body.velocity.y = -350;
+		dude.body.velocity.y = -300;
 	}
 }
 
 function starJump(dude, star) {
 	star.kill();
 	dude.body.velocity.y = -300;
+}
+
+function starDie(star) {
+	star.kill();
+
+}
+
+function addStars() {
+
+		var rand = Math.random()*300;
+		var star = stars.create(rand,  0, 'star');
+		game.physics.arcade.enable(star);
+		star.body.velocity.y = 25;
+		
 }
