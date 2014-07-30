@@ -13,7 +13,11 @@ var scoreToAdd = 10;
 var starCount = 0;
 
 function preload() {
-		game.load.spritesheet('backgrounds', 'assets/backgrounds.png', 231, 69);
+		game.load.image('sky', 'assets/sky.png');
+		game.load.image('cloud', 'assets/cloud.png');
+		game.load.image('uppersky', 'assets/highsky.png');
+		game.load.image('space', 'assets/space.png');
+		game.load.image('moon', 'assets/moon.png');
 		game.load.image('platform', 'assets/platform.png');
 		game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
 		game.load.image('star', 'assets/star.png');
@@ -27,6 +31,22 @@ function create() {
 		starLoc = game.world.height - 150;
 
 
+		var sky = game.add.sprite(0, 7500, 'sky');
+		sky.scale.setTo(1.0, 125);
+
+		var uppersky = game.add.sprite(0, 4000, 'uppersky');
+		uppersky.scale.setTo(1.0, 125);
+
+		var cloud = game.add.sprite(0, 7530, 'cloud');
+
+		var space = game.add.sprite(0, 100, 'space');
+		space.scale.setTo(1.0, 1.0);
+
+		var moon = game.add.sprite(0, 0, 'moon');
+
+
+
+
 		platform = game.add.group();
 		platform.enableBody = true;
 
@@ -38,14 +58,12 @@ function create() {
 		stars = game.add.group();
 		stars.enableBody = true;
 
-
-		for (var i = 0; i < 9; i++)
-		{
-		addStars();
-		}
-
-		this.timer = this.game.time.events.loop(500, addStars, this);
-		this.scoreTimer = this.game.time.events.loop(1000, scoreWipe, this);
+		// for (var i = 0; i < 200; i++) {
+		// 	addStars();
+		// }
+		
+		// this.timer = this.game.time.events.loop(750, addStars, this);
+		// this.scoreTimer = this.game.time.events.loop(1000, scoreWipe, this);
 
 		dude = game.add.sprite(180, game.world.height - 100, 'dude');
 
@@ -71,10 +89,6 @@ function create() {
 		
 		starScore = game.add.text(dude.world.x - 5, dude.world.y - 5, "", style);
 
-
-
-
-
 }
 
 function update() {
@@ -96,8 +110,8 @@ function update() {
 		dude.frame = 4;
 	}
 
-	if (cursors.up.isDown && dude.body.touching.down) {
-		dude.body.velocity.y = -300;
+	if (cursors.up.isDown) {
+		dude.body.velocity.y = -1000;
 	}
 }
 
@@ -133,15 +147,14 @@ function starDie(star) {
 }
 
 function addStars() {
-	if (starCount < 50) {
 		var rand = Math.random()*300;
 		var star = stars.create(rand, starLoc, 'star');
 		starLoc = starLoc - 75;
 		starCount = starCount + 1;
 		game.physics.arcade.enable(star);
 		star.body.velocity.y = 40;
-	}
 }
+
 
 function diamondCheck() {
 	var rand = Math.floor(Math.random()*20);
