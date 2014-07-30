@@ -3,6 +3,7 @@ var dude;
 var platform;
 var cursors;
 var star;
+var jumpNoise;
 var starLoc;
 var starCount = 0;
 function preload() {
@@ -10,14 +11,14 @@ function preload() {
 		game.load.image('platform', 'assets/platform.png');
 		game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
 		game.load.image('star', 'assets/star.png');
-		game.load.audio('noise', 'noise.wav');
+		game.load.audio('noise', 'assets/noise.wav');
+		game.load.image('diamond', 'assets/diamond.png');
 }
 
 function create() {
 		game.physics.startSystem(Phaser.Physics.ARCADE);
 		game.world.setBounds(0, 0, 400, 10000);
 		starLoc = game.world.height - 150;
-
 
 
 		platform = game.add.group();
@@ -39,9 +40,6 @@ function create() {
 
 		this.timer = this.game.time.events.loop(500, addStars, this);
 
-
-
-
 		dude = game.add.sprite(180, game.world.height - 100, 'dude');
 
 		game.physics.arcade.enable(dude);
@@ -57,6 +55,10 @@ function create() {
 
 
 		cursors = game.input.keyboard.createCursorKeys();
+
+		jumpNoise = game.add.audio('noise');
+
+
 }
 
 function update() {
@@ -87,6 +89,9 @@ function starJump(dude, star) {
 	star.kill();
 	dude.body.velocity.y = -300;
 	starCount = starCount - 1;
+	jumpNoise.play();
+	diamondCheck();
+
 }
 
 function starDie(star) {
@@ -103,5 +108,14 @@ function addStars() {
 		starCount = starCount + 1;
 		game.physics.arcade.enable(star);
 		star.body.velocity.y = 25;
+	}
+}
+
+function diamondCheck() {
+	var rand = Math.floor(Math.random()*10);
+	console.log(rand);
+	if (rand == 1) {
+		var diamond = stars.create(0, dude.world.y - 500, 'diamond');
+		diamond.body.velocity.x = 25;
 	}
 }
