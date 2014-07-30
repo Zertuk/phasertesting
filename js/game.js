@@ -3,7 +3,8 @@ var dude;
 var platform;
 var cursors;
 var star;
-
+var starLoc;
+var starCount = 0;
 function preload() {
 		game.load.spritesheet('backgrounds', 'assets/backgrounds.png', 231, 69);
 		game.load.image('platform', 'assets/platform.png');
@@ -15,6 +16,7 @@ function preload() {
 function create() {
 		game.physics.startSystem(Phaser.Physics.ARCADE);
 		game.world.setBounds(0, 0, 400, 10000);
+		starLoc = game.world.height - 150;
 
 
 
@@ -32,15 +34,10 @@ function create() {
 
 		for (var i = 0; i < 9; i++)
 		{
-		var rand = Math.random()*300;
-		var randtwo = Math.random() * 400;
-		var star = stars.create(rand,  randtwo, 'star');
-		game.physics.arcade.enable(star);
-		star.body.velocity.y = 25;
-
+		addStars();
 		}
 
-		this.timer = this.game.time.events.loop(2500, addStars, this);
+		this.timer = this.game.time.events.loop(500, addStars, this);
 
 
 
@@ -89,18 +86,22 @@ function update() {
 function starJump(dude, star) {
 	star.kill();
 	dude.body.velocity.y = -300;
+	starCount = starCount - 1;
 }
 
 function starDie(star) {
 	star.kill();
+	starCount = starCount - 1;
 
 }
 
 function addStars() {
-
+	if (starCount < 50) {
 		var rand = Math.random()*300;
-		var star = stars.create(rand, dude.world.y - 200, 'star');
+		var star = stars.create(rand, starLoc, 'star');
+		starLoc = starLoc - 100;
+		starCount = starCount + 1;
 		game.physics.arcade.enable(star);
 		star.body.velocity.y = 25;
-		
+	}
 }
