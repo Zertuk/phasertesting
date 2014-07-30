@@ -1,4 +1,4 @@
-var game = new Phaser.Game(400, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+var game = new Phaser.Game(400, 600, Phaser.AUTO, 'game_container', { preload: preload, create: create, update: update });
 var dude;
 var platform;
 var cursors;
@@ -24,6 +24,7 @@ function preload() {
 		game.load.image('star', 'assets/yarn.png');
 		game.load.audio('noise', 'assets/noise.wav');
 		game.load.image('diamond', 'assets/diamond.png');
+		game.load.audio('music', 'assets/copycat.mp3');
 }
 
 function create() {
@@ -85,6 +86,9 @@ function create() {
 		cursors = game.input.keyboard.createCursorKeys();
 
 		jumpNoise = game.add.audio('noise');
+
+		mainMusic = game.add.audio('music');
+		mainMusic.play();
 
 		style = {font : "30px Arial", fill: "#ff0044"}
 		scoreText = game.add.text(5, 5, "0", style);
