@@ -23,7 +23,7 @@ function preload() {
 		game.load.spritesheet('cat', 'assets.cat2,png', 32, 32);
 		game.load.image('star', 'assets/yarn.png');
 		game.load.audio('noise', 'assets/noise.wav');
-		game.load.image('diamond', 'assets/diamond.png');
+		game.load.spritesheet('diamond', 'assets/bird.png', 32, 32);
 		game.load.audio('music', 'assets/copycat.mp3');
 }
 
@@ -79,6 +79,8 @@ function create() {
 		dude.animations.add('right', [0, 1, 2], 10, true);
 		dude.animations.add('left', [0, 1, 2] ,10, true);
 		// dude.animations.add('right', [5, 6, 7, 8], 10, true);
+
+
 
 		game.camera.follow(dude, 0);
 
@@ -168,12 +170,16 @@ function diamondCheck() {
 	console.log(rand);
 	if (rand == 1) {
 		var diamond = stars.create(0, dude.world.y - 500, 'diamond');
-		diamond.body.velocity.x = 30;
+		diamond.body.velocity.x = 35;
+		diamond.animations.add('right', [0, 1, 2, 3], 10, true);
 	}
 	if (rand === 2) {
 		var diamond = stars.create(400, dude.world.y - 500, 'diamond');
-		diamond.body.velocity.x = -30;
+		diamond.body.velocity.x = -35;
+		diamond.animations.add('left', [0, 1, 2, 3], 10, true);
 	}
+	
+
 }
 
 function scoreToAddText(star) {
