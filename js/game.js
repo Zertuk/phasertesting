@@ -19,8 +19,9 @@ function preload() {
 		game.load.image('space', 'assets/space.png');
 		game.load.image('moon', 'assets/moon.png');
 		game.load.image('platform', 'assets/platform.png');
-		game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
-		game.load.image('star', 'assets/star.png');
+		game.load.spritesheet('dude', 'assets/space cat.png', 32, 32);
+		game.load.spritesheet('cat', 'assets.cat2,png', 32, 32);
+		game.load.image('star', 'assets/yarn.png');
 		game.load.audio('noise', 'assets/noise.wav');
 		game.load.image('diamond', 'assets/diamond.png');
 }
@@ -58,9 +59,9 @@ function create() {
 		stars = game.add.group();
 		stars.enableBody = true;
 
-		// for (var i = 0; i < 200; i++) {
-		// 	addStars();
-		// }
+		for (var i = 0; i < 200; i++) {
+			addStars();
+		}
 		
 		// this.timer = this.game.time.events.loop(750, addStars, this);
 		// this.scoreTimer = this.game.time.events.loop(1000, scoreWipe, this);
@@ -72,9 +73,11 @@ function create() {
 		dude.body.bounce.y = 0;
 		dude.body.gravity.y = 400;
 		dude.body.collideWorldBounds = true;
+		dude.scale.setTo(3.0, 3.0);
 
-		dude.animations.add('left', [0, 1, 2 , 3], 10, true);
-		dude.animations.add('right', [5, 6, 7, 8], 10, true);
+		dude.animations.add('right', [0, 1, 2], 10, true);
+		dude.animations.add('left', [0, 1, 2] ,10, true);
+		// dude.animations.add('right', [5, 6, 7, 8], 10, true);
 
 		game.camera.follow(dude, 0);
 
@@ -111,7 +114,7 @@ function update() {
 	}
 
 	if (cursors.up.isDown) {
-		dude.body.velocity.y = -1000;
+		dude.body.velocity.y = -300;
 	}
 }
 
