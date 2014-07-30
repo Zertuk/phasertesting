@@ -9,20 +9,20 @@ function preload() {
 		game.load.image('platform', 'assets/platform.png');
 		game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
 		game.load.image('star', 'assets/star.png');
+		game.load.audio('noise', 'noise.wav');
 }
 
 function create() {
 		game.physics.startSystem(Phaser.Physics.ARCADE);
+		game.world.setBounds(0, 0, 400, 10000);
 
 
-		var background = game.add.sprite(0, 0, 'backgrounds');
-		background.scale.setTo(9.0, 9.0);
 
 		platform = game.add.group();
 		platform.enableBody = true;
 
 
-		var grounds = platform.create(0, 560, 'platform');
+		var grounds = platform.create(0, game.world.height - 50, 'platform');
 		grounds.scale.setTo(1.0, 1.5);
 		grounds.body.immovable = true;
 
@@ -40,25 +40,30 @@ function create() {
 
 		}
 
-		this.timer = this.game.time.events.loop(1500, addStars, this);
+		this.timer = this.game.time.events.loop(2500, addStars, this);
 
 
 
 
-		dude = game.add.sprite(10, 510, 'dude');
+		dude = game.add.sprite(180, game.world.height - 100, 'dude');
 
 		game.physics.arcade.enable(dude);
 
 		dude.body.bounce.y = 0;
 		dude.body.gravity.y = 300;
+		dude.body.collideWorldBounds = true;
 
 		dude.animations.add('left', [0, 1, 2 , 3], 10, true);
 		dude.animations.add('right', [5, 6, 7, 8], 10, true);
+
+		game.camera.follow(dude, 0);
+
 
 		cursors = game.input.keyboard.createCursorKeys();
 }
 
 function update() {
+
 	game.physics.arcade.collide(dude, platform);
 	game.physics.arcade.overlap(dude, stars, starJump, null, this);
 	game.physics.arcade.overlap(stars, platform, starDie, null, this);
@@ -94,7 +99,7 @@ function starDie(star) {
 function addStars() {
 
 		var rand = Math.random()*300;
-		var star = stars.create(rand,  0, 'star');
+		var star = stars.create(rand, dude.world.y - 200, 'star');
 		game.physics.arcade.enable(star);
 		star.body.velocity.y = 25;
 		
