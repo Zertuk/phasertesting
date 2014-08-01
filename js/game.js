@@ -4,7 +4,7 @@ var platform;
 var cursors;
 var star;
 var jumpNoise;
-var starLoc = -300;
+var starLoc;
 var style;
 var starScore;
 var score = 0;
@@ -32,7 +32,7 @@ function preload() {
 function create() {
 		game.physics.startSystem(Phaser.Physics.ARCADE);
 		game.world.setBounds(0, 0, 400, 10000);
-		starLoc = game.world.height - 150;
+		starLoc = game.world.height - 400;
 
 
 		var sky = game.add.sprite(0, 7500, 'sky');
@@ -57,7 +57,7 @@ function create() {
 
 
 		var grounds = platform.create(0, game.world.height - 50, 'platform');
-		grounds.scale.setTo(1.0, 1.5);
+		grounds.scale.setTo(2.0, 1.5);
 		grounds.body.immovable = true;
 
 		stars = game.add.group();
@@ -107,6 +107,8 @@ function create() {
 }
 
 function update() {
+	game.world.setBounds(0, 0, 400, 10000);
+	console.log(dude.world.x)
 
 
 	game.physics.arcade.collide(dude, platform);
