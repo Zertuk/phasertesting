@@ -80,10 +80,20 @@ var play_state = {
 			dude.animations.stop();
 		}
 	},
+
+	gameOver: function() {
+		if (score > 0 && dude.body.touching.down) {
+			this.game.state.start('menu');
+		}
+	},
+
 	create: function() {
 		mainMusic = game.add.audio('music');
-		mainMusic.play();
-		
+		if (!musicOn) {
+			mainMusic.play();
+			musicOn = true;
+		}
+
 		game.world.setBounds(0, 0, 400, 10000);
 		starLoc = game.world.height - 400;
 
@@ -159,6 +169,7 @@ var play_state = {
 		if (game.input.activePointer.isDown && dude.body.touching.down) {
 			dude.body.velocity.y = -400;
 		}
+		this.gameOver();
 	}	
 }
 

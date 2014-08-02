@@ -10,6 +10,7 @@ var starScore;
 var score = 0;
 var purrNoise;
 var scoreText;
+var musicOn = false;
 var scoreToAdd = 10;
 var starCount = 0;
 
@@ -17,5 +18,6 @@ var starCount = 0;
 game.state.add('load', load_state);
 game.state.add('menu', menu_state);
 game.state.add('play', play_state);
+game.state.add('end', end_state);
 
 game.state.start('load');
