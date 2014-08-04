@@ -1,11 +1,5 @@
 var play_state = {
 	create: function() {
-		// mainMusic = game.add.audio('music');
-		// if (!musicOn) {
-		// 	mainMusic.play();
-		// 	musicOn = true;
-		// }
-
 		game.world.setBounds(0, 0, 400, 10000);
 		starLoc = game.world.height - 400;
 
@@ -20,7 +14,14 @@ var play_state = {
 		cloud.scale.setTo(1.5, 1.0)
 
 		var space = game.add.sprite(0, 100, 'space');
-		space.scale.setTo(2.0, 1.0);
+		space.scale.setTo(1.0, 1.0);
+		var space2 = game.add.sprite(0, 600, 'space');
+		var space3 = game.add.sprite(0, 1100, 'space');
+		var space4 = game.add.sprite(0, 1600, 'space');
+		var space5 = game.add.sprite(0, 2100, 'space');
+		var space6 = game.add.sprite(0, 2600, 'space');
+		var space7 = game.add.sprite(0, 3100, 'space');
+
 
 		var moon = game.add.sprite(0, 0, 'moon');
 
@@ -32,7 +33,7 @@ var play_state = {
 
 
 		var grounds = platform.create(0, game.world.height - 50, 'platform');
-		grounds.scale.setTo(2.0, 1.5);
+		grounds.scale.setTo(2.0, 1.6);
 		grounds.body.immovable = true;
 
 		stars = game.add.group();
@@ -48,8 +49,9 @@ var play_state = {
 		dude.body.bounce.y = 0;
 		dude.body.gravity.y = 375;
 		dude.body.collideWorldBounds = true;
-		dude.anchor.setTo(0.5, 0.5);
-		dude.scale.setTo(1.75, 1.75);
+		dude.anchor.setTo(0.5, 1);
+		Phaser.Canvas.setSmoothingEnabled(dude, false);
+		dude.scale.setTo(1.5, 1.5);
 
 		dude.animations.add('right', [0, 1, 2], 10, true);
 		dude.animations.add('left', [0, 1, 2] ,10, true);
@@ -68,7 +70,7 @@ var play_state = {
 		style = {font : "30px Arial", fill: "#ff0044"}
 		scoreText = game.add.text(5, 5, "0", style);
 		scoreText.fixedToCamera = true;
-		
+
 		starScore = game.add.text(dude.world.x - 5, dude.world.y - 5, "", style);
 
 	},
@@ -96,11 +98,9 @@ var play_state = {
 	},
 
 	starJump: function(dude, star) {
-		star.kill();
-
 		dude.body.velocity.y = -375;
 		starCount = starCount - 1;
-		
+		star.kill();
 		this.addScore(star);
 		this.diamondCheck();
 	},
@@ -131,13 +131,21 @@ var play_state = {
 		if (rand == 1) {
 			var diamond = stars.create(0, dude.world.y - 500, 'diamond');
 			diamond.body.velocity.x = 35;
-			diamond.animations.add('right', [0, 1, 2, 3], 10, true);
+			diamond.scale.x = 1;
+			diamond.animations.add('right', [0, 1, 2, 3, 4, 5], 10, true);
+			diamond.animations.play('right');
 		}
 		if (rand === 2) {
-			var diamond = stars.create(400, dude.world.y - 500, 'diamond');
+			var diamond = stars.create(0, dude.world.y - 500, 'diamond');
 			diamond.body.velocity.x = -35;
+			diamond.scale.x = -1;
 			diamond.animations.add('left', [0, 1, 2, 3], 10, true);
+			diamond.animations.play('left');
 		}
+	},
+
+	starKill: function(star) {
+				star.kill();
 	},
 
 	scoreToAddText: function(star) {
@@ -156,10 +164,13 @@ var play_state = {
 	movePlayer: function() {
 		if (game.input.mousePointer.x > dude.x + 25) {
 			dude.body.velocity.x = 500;
+			dude.scale.x = 1.5;
 			dude.animations.play('left')
+
 		}
 		else if (game.input.mousePointer.x < dude.x - 25) {
 			dude.body.velocity.x = -500;
+			dude.scale.x = -1.5;
 			dude.animations.play('right')
 		}
 		else {

@@ -1,13 +1,16 @@
 var end_state = {
 	create: function() {
 
+		var winner = game.add.image(0, 0, 'win');
+
+
 		var space_key = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 				space_key.onDown.add(this.start, this);
 
-		var style = {font: "20px Arial", fill: "#ffffff"};
+		var style = {font: "20px Arial", fill: "white"};
 
-		var text = this.game.add.text(200, 250, 'Score: ' + score, style);
-		var winText = this.game.add.text(200, 275, 'You Win! Space to play again!', style);
+		var text = this.game.add.text(330, 250, 'Score: ' + score, style);
+		var winText = this.game.add.text(250, 275, 'You Win! Space to play again!', style);
 
 	},
 

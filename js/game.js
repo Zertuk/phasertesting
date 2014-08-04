@@ -13,6 +13,7 @@ var scoreText;
 var musicOn = false;
 var scoreToAdd = 10;
 var starCount = 0;
+var starTimer;
 
 
 game.state.add('load', load_state);
